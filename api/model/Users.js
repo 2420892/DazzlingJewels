@@ -1,4 +1,3 @@
-// users done
 const db = require("../config")
 const{hash,compare,hashSync}=require('bcrypt')
 const {createToken} = require('../middleware/authenticateUser')
@@ -31,8 +30,8 @@ class Users{
         })
     }
     login(req, res) {
-        const {emailAdd, userPass} = req.body
-        // query
+        const {emailAdd, userPassword} = req.body
+        
         const query = `
         SELECT userID, firstName, lastName, gender, userDOB, emailAdd, userPassword, profileUrl
         FROM Users
@@ -46,21 +45,15 @@ class Users{
                     msg: "You provided a wrong email."
                 })
             }else {
-                await compare(userPass,
-                    result[0].userPass,
+                await compare(userPassword,
+                    result[0].userPassword,
                     (cErr, cResult)=>{
                         if(cErr) throw cErr
-                        // Create a token
+                        
                         const token =
                         createToken({
                             emailAdd,
-                            userPass
-                        })
-                        // Save a token
-                        res.cookie("LegitUser",
-                        token, {
-                            maxAge: 3600000,
-                            httpOnly: true
+                            userPassword
                         })
                         if(cResult) {
                             res.json({
@@ -81,36 +74,33 @@ class Users{
 }
 async register(req,res){
     const data = req.body
-    // encrypt password
-    data.userPass = await hash(data.userPass,15)
-    // payload (userdata)
+ 
+    data.userPassword = await hash(data.userPassword,15)
+
     const user = {
         emailAdd : data.emailAdd,
-        userPass : data.userPass
+        userPassword : data.userPassword
     }
-    // query
+
     const query =`
     INSERT INTO Users
     SET ?;
     `
     db.query(query,[data], (err)=>{
-    if(err) throw err
-    // create token
+    if(err)throw err
     let token = createToken(user)
-    res.cookie("LegitUseer",token,{
-        maxAge : 3600000,
-        httpOnly : true
-    })
+  
     res.json({
         status : res.statusCode,
+        token,
         msg: "you are now registered."
     })
 })
 }
 updateUser(req,res){
     const data =req.body
-    if(data.userPass){
-        data.userPass = hashSync(data.userPass,15)
+    if(data.userPassword){
+        data.userPassword = hashSync(data.userPassword,15)
     }
     const query =`
     UPDATE Users
@@ -132,7 +122,7 @@ deleteUser(req,res){
     DELETE FROM Users
     WHERE userID =${req.params.id}
     `
-    db.query(query,(err)=>{//we are not expecting a data here , only a message hence callback is only err
+    db.query(query,(err)=>{
         if (err) throw err
         res.json({
             status:res.statusCode,

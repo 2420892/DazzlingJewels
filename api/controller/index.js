@@ -4,10 +4,8 @@ const bodyParser = require('body-parser')
 const {verifyAToken} = require('../middleware/ErrorHandling')
 const routes = express.Router()
 
-// importing all models objects
-const {Users}=require('../MODEL')
+const {Users, Products}=require('../MODEL')
 
-// login
 routes.post('/login',
 bodyParser.json(), (req, res)=>{
     Users.login(req, res)
@@ -34,6 +32,28 @@ routes.patch('/User/:id',bodyParser.json(),
 })
 routes.delete('/User/:id',(req,res)=>{
     Users.deleteUser(req,res)
+})
+// ===products==
+routes.get('/Products',(req,res)=>{
+  Products.fetchProducts(req,res)
+})
+routes.get('/Product/:id',(req,res)=>{
+    Products.fetchProduct(req,res)
+})
+routes.post('/addProduct', bodyParser.json(),
+(req,res)=>{
+    Products.addProduct(req,res)
+})
+routes.put('/Product/:id',bodyParser.json(),
+(req,res)=>{
+    Products.updateProduct(req,res)
+})
+routes.patch('/Product/:id',bodyParser.json(),
+(req,res)=>{
+    Products.updateProduct(req,res)
+})
+routes.delete('/Product/:id',(req,res)=>{
+    Products.deleteProduct(req,res)
 })
 module.exports ={
     express,

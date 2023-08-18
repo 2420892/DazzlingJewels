@@ -1,7 +1,6 @@
-// rememmber to set up product router on controller
 const db =require("../config")
 
-class products{
+class Products{
     fetchProducts(req,res){
         const query =`
         SELECT prodID, prodName, amount, category, image
@@ -31,7 +30,7 @@ class products{
     }
     addProduct(req, res) {
         const query = `
-        INSERT INTO products
+        INSERT INTO Products
         SET ?;
         `;
 
@@ -46,7 +45,7 @@ class products{
 
     updateProduct(req, res) {
         const query = `
-        UPDATE products
+        UPDATE Products
         SET ?
         WHERE prodID = ?;
         `;
@@ -62,7 +61,7 @@ class products{
 
     deleteProduct(req, res) {
         const query = `
-        DELETE FROM products
+        DELETE FROM Products
         WHERE prodID = ${req.params.id};
         `;
 
@@ -76,4 +75,4 @@ class products{
     }
 }
 
-module.exports = products;
+module.exports = Products;
