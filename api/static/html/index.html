@@ -3,11 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dazzling Jewels</title>
+    <title>API Endpoint Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #F2F2F2;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Dazzling Jewels</h2>
-    </div>
+    <h1>Dazzling Jewels</h1>
+    <table>
+        <thead>
+            <h2>USERS ROUTE</h2>
+            <tr>
+                <th>Methods</th>
+                <th>Path</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GET</td>
+                <td>/api/</td>
+                <td>Get to our home page</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/api/Users</td>
+                <td>Retrieve a list of users.</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/api/Users</td>
+                <td>Create a new user.</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td>/api/Users/:id</td>
+                <td>Update user information.</td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
 </body>
 </html>

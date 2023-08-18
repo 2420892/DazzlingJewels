@@ -1,9 +1,8 @@
 const Users = require('./Users')
-const products = require('./Products')
+const Products = require('./Products')
 
-// EXPORT AL OBJJECTS
 module.exports = {
     Users: new Users(),
-    products:new products()
+    Products:new Products()
     
 }
