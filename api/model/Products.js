@@ -3,7 +3,7 @@ const db =require("../config")
 class Products{
     fetchProducts(req,res){
         const query =`
-        SELECT prodID, prodName, amount, category, image
+        SELECT prodID, prodName, amount, category, image,gender
         FROM Products;
         `
         db.query(query,(err,results)=>{
@@ -16,7 +16,7 @@ class Products{
     }
     fetchProduct(req,res){
         const query =`
-        SELECT prodID, prodName, amount, category, image
+        SELECT prodID, prodName, amount, category, image,gender
         FROM Products
         WHERE prodID = ${req.params.id};
         `
