@@ -8,7 +8,7 @@ class Users{
         FROM Users;
         `
         db.query(query,(err,results)=>{
-            if (err) throw err
+            if (err) res.json({err})
             res.json({
                 status:res.statusCode,
                 results
