@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const {verifyAToken} = require('../middleware/ErrorHandling')
 const routes = express.Router()
 
-const {Users, Products}=require('../MODEL')
+const {Users, Products}=require('../model')
 
 routes.post('/login',
 bodyParser.json(), (req, res)=>{
