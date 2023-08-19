@@ -14,15 +14,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="product in products" :key="product.prodId">
-            <td>{{ product.prodID }}</td>
-            <td>{{ product.prodName }}</td>
-            <td><img :src="product.image" alt="Product Image"></td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.amount }}</td>
+          <tr v-for="Product in Products" :key="Product.prodID">
+            <td>{{ Product.prodID }}</td>
+            <td>{{ Product.prodName }}</td>
+            <td><img :src="Product.image" alt="Product Image"></td>
+            <td>{{ Product.category }}</td>
+            <td>{{ Product.amount }}</td>
             <td>
-              <button @click="editProduct(product.prodID)" class="btn btn-primary">Edit</button>
-              <button @click="deleteProduct(product.prodID)" class="btn btn-secondary">Delete</button>
+              <button @click="editProduct(Product.prodID)" class="btn btn-primary">Edit</button>
+              <button @click="deleteProduct(Product.prodID)" class="btn btn-secondary">Delete</button>
             </td>
           </tr>
         </tbody>
@@ -38,19 +38,23 @@
               <form>
                 <div class="mb-3">
                   <label for="prodName" class="form-label">Name:</label>
-                  <input type="text" class="form-control" v-model="newProduct.prodName" id="prodName">
+                  <input type="text" class="form-control" v-model="Product.prodName" id="prodName">
                 </div>
                 <div class="mb-3">
                   <label for="image" class="form-label">Image:</label>
-                  <input type="text" class="form-control" v-model="newProduct.image" id="image">
+                  <input type="text" class="form-control" v-model="Product.image" id="image">
                 </div>
                 <div class="mb-3">
                   <label for="category" class="form-label">Category:</label>
-                  <input type="text" class="form-control" v-model="newProduct.category" id="category">
+                  <input type="text" class="form-control" v-model="Product.category" id="category">
+                </div>
+                <div class="mb-3">
+                  <label for="category" class="form-label">Gender:</label>
+                  <input type="text" class="form-control" v-model="Product.gender" id="gender">
                 </div>
                 <div class="mb-3">
                   <label for="amount" class="form-label">Amount:</label>
-                  <input type="text" class="form-control" v-model="newProduct.amount" id="amount">
+                  <input type="text" class="form-control" v-model="Product.amount" id="amount">
                 </div>
               </form>
             </div>
@@ -65,75 +69,58 @@
   </template>
   
   <script>
-  export default {
-    data() {
-      return {
-        newProduct: {
-          prodName: '',
-          image: '',
-          category: '',
-          amount: '',
-        },
-        isModalVisible: false,
+import { mapState, mapActions } from 'vuex';
+
+export default {
+  computed: {
+    ...mapState(['Products']),
+  },
+  data() {
+    return {
+      isModalVisible: false,
+      Product: {
+        prodName: '',
+        image: '',
+        category: '',
+        gender:'',
+        amount: 0,
+      },
+    };
+  },
+  methods: {
+    ...mapActions(['fetchProduct']),
+    showAddProductModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+      this.resetNewProduct();
+    },
+    resetNewProduct() {
+      this.Product = {
+        prodName: '',
+        image: '',
+        category: '',
+        gender:'',
+        amount: 0,
       };
     },
-    computed: {
-      products() {
-        return this.$store.state.Products;
-      },
+    async addProduct() {
+      try {
+        await axios.post(`${cUrl}addProduct`, this.Product);
+        this.fetchProduct(); 
+        this.closeModal();
+      } catch (error) {
+        console.error('Error adding product:', error);
+      }
     },
-    methods: {
-      showAddProductModal() {
-        this.newProduct = {
-          prodName: '',
-          image: '',
-          category: '',
-          amount: '',
-        };
-        this.isModalVisible = true;
-      },
-      sortTableById() {
-        // Implement sorting logic here
-      },
-      editProduct(prodID) {
-        // Implement editing logic here
-      },
-      deleteProduct(prodID) {
-        // Implement deleting logic here
-      },
-      addProduct() {
-        fetch('/api/Products', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(this.newProduct),
-        })
-          .then(response => response.json())
-          .then(addedProduct => {
-            this.$store.commit('setProduct', addedProduct);
-            console.log('Product added');
-            this.newProduct = {
-              prodName: '',
-              image: '',
-              category: '',
-              amount: '',
-            };
-            this.closeModal();
-          })
-          .catch(error => {
-            console.error('Error adding product:', error);
-          });
-      },
-      closeModal() {
-        this.isModalVisible = false;
-      },
-    },
-    mounted() {
-      this.$store.dispatch('fetchProducts');
-    },
-  };
-  </script>
+    
+  },
+  mounted() {
+    this.$store.dispatch('fetchProducts');
+  },
+};
+</script>
   
   <style scoped>
   .modal {
