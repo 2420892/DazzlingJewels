@@ -10,7 +10,7 @@
             <div class="card-body">
               <h5 class="card-title">{{ Product.prodName }}</h5>
               <p class="card-text">Category: {{ Product.category }}</p>
-              <h5 class="card-title">{{ Product.amount }}</h5>
+              <h5 class="card-title"> R{{ Product.amount }}</h5>
             </div>
           </div>
         </div>
