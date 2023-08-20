@@ -2,7 +2,7 @@
     <div>
         <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" >
             <div class="container-fluid">
-              <a class="navbar-brand" href="#">yaah ke</a>
+              <a class="navbar-brand" href="#"><img src="https://i.postimg.cc/T1MS6ZPs/Black-Elegant-Modern-Name-Initials-Monogram-Logo-removebg-preview.png" alt=""></a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
@@ -41,7 +41,10 @@
 </script>
 
 <style scoped>
-
+img{
+  width:80px;
+  height:50px;
+}
 
 
 </style>
